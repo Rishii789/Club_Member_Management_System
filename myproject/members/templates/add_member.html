@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Member</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+    <div class="card" style="margin-top: -15vh; height: 85vh;">
+        <h1>Add Member</h1>
+
+        <form method="post" class="form-container">
+            {% csrf_token %}
+
+            <input type="text" name="firstname" placeholder="First Name" required>
+            <input type="text" name="lastname" placeholder="Last Name" required>
+            <input type="text" name="username" placeholder="Username (membership id)" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="number" name="phone" placeholder="Phone Number" required>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color:red; text-align:center;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <button type="submit">Create Member</button>
+        </form>
+
+        <p style="text-align:center; margin-top: 15px;">
+            <a href="/main/members/">← Back to Members</a>
+        </p>
+    </div>
+</body>
+</html>

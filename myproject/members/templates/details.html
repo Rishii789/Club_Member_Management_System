@@ -1,0 +1,47 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Details about {{ mymember.firstname }} {{ mymember.lastname }}
+{% endblock %}
+
+{% block content %}
+<div class="mycard">
+
+    {% load static %}
+
+    <h1>{{ mymember.firstname }} {{ mymember.lastname }}</h1>
+
+    <div class="profile">
+        <div style="text-align:center; margin-bottom:15px;">
+            {% if mymember.profile_photo %}
+                <img src="{{ mymember.profile_photo.url }}" class="profile-pic">
+            {% else %}
+                <img src="{% static 'images/default_profile.png' %}" class="profile-pic">
+            {% endif %}
+        </div>
+        
+        <p><strong>Role:</strong> {{ mymember.role }}</p>
+
+        <p><strong>Department:</strong>
+            {% for dept in mymember.headed_departments.all %}
+                {{ dept.name }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                None
+            {% endfor %}
+        </p>
+
+        <p><strong>Phone:</strong> {{ mymember.phone }}</p>
+        <p><strong>Email:</strong> {{ mymember.email }}</p>
+
+        {% if current_user.id == mymember.id or current_user.role.name == 'secretariat' or current_user.role.name == 'admin' %}
+            <a href="{% url 'edit_member' mymember.id %}">
+                Edit
+            </a>
+        {% endif %}
+    </div>
+    <p style="text-align: center; margin-top: 15px;" class="link">Back to <a href="/main/members">Members</a></p>
+</div>
+
+
+{% endblock %}
+

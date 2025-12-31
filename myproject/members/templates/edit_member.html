@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Member</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+<div style="
+    width: 60vw;
+    border-radius: 5px;
+    box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
+    background-color: #f1f1f1;
+    background-image: linear-gradient(to bottom, #375BDC, #4D70EF);
+    background-size: 100% 120px;
+    background-repeat: no-repeat;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: -17;
+    ">
+    <h1>Edit Member</h1>
+
+    <form method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+
+         <label style="text-align:center; display:block; margin-bottom:10px;">
+            Upload Profile Photo
+        </label>
+
+        <input type="file" name="profile_photo" accept="image/*">
+
+        <input type="text" name="firstname" placeholder="First Name"
+               value="{{ mymember.firstname }}" required>
+
+        <input type="text" name="lastname" placeholder="Last Name"
+               value="{{ mymember.lastname }}" required>
+
+        <input type="text" name="phone" placeholder="Phone Number"
+               value="{{ mymember.phone }}">
+
+        <input type="email" name="email" placeholder="Email"
+               value="{{ mymember.email }}">
+
+        <input type="text" name="username" placeholder="Username"
+               value="{{ mymember.username }}" required>
+
+        <input type="password" name="password"
+               placeholder="New password (leave blank to keep unchanged)">
+
+        {% if can_manage_roles %}
+            <hr style="margin: 6px 0;">
+
+            <h3 style="text-align:center; margin: 3px 0 10px 0;">Departments</h3>
+
+            {% for dept in departments %}
+                <label style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" name="departments"
+                           value="{{ dept.id }}"
+                           {% if dept in mymember.headed_departments.all %}checked{% endif %}>
+                    {{ dept.name }}
+                </label>
+            {% endfor %}
+        {% endif %}
+
+        {% if can_manage_roles %}
+            <hr style="margin: 6px 0;">
+
+            <h3 style="text-align:center; margin: 3px 0 10px 0;">Role Management</h3>
+
+            {% if mymember.role.name == 'member' %}
+                <a href="{% url 'confirm_promote_head' mymember.id %}">
+                    <button type="button">Promote to Head</button>
+                </a>
+            {% endif %}
+
+            {% if current_user.role.name == 'admin' and mymember.role.name == 'head' %}
+                <a href="{% url 'confirm_promote_secretariat' mymember.id %}">
+                    <button type="button">Promote to Secretariat</button>
+                </a>
+            {% endif %}
+
+            {% if can_manage_roles and mymember.role.name == 'head' %}
+                <a href="{% url 'confirm_demote_head' mymember.id %}">
+                    <button type="button">Demote to Member</button>
+                </a>
+            {% endif %}
+
+            {% if current_user.role.name == 'admin' and mymember.role.name == 'secretariat' %}
+                <a href="{% url 'confirm_demote_secretariat' mymember.id %}">
+                    <button type="button">Demote to Head</button>
+                </a>
+            {% endif %}
+
+            {% if current_user and can_delete_member %}
+                <hr>
+                <a href="{% url 'confirm_delete_member' mymember.id %}">
+                    <button type="button" class="btn-danger">
+                        Delete Member
+                    </button>
+                </a>
+            {% endif %}
+
+        {% endif %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="
+                    color: {% if message.level_tag == 'error' %} #dc3545{% else %}#28a745{% endif %};
+                    text-align: center;
+                    margin: 10px 0;
+                    font-size: 14px;
+                ">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
+
+
+
+        <button id="sub" type="submit" class="btn-success">Save Changes</button>
+    </form>
+
+    <p style="text-align:center; margin-top:15px;">
+        <a href="{% url 'details' mymember.id %}">Back to Details</a>
+    </p>
+</div>
+<script>
+    document.getElementById("sub").addEventListener("onClick", ((e)=>{
+        e.preventDefault();
+    }))
+</script>
+</body>
+</html>

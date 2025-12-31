@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    font: 600 18px 'Source Sans Pro', sans-serif;
+    letter-spacing: 0.64px;
+    color: #585d74;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 50px;
+    height: 100vh;
+}
+
+/* Card container for login or registration */
+.card {
+    background-color: #f1f1f1;
+    background-image: linear-gradient(to bottom, #375BDC, #4D70EF);
+    background-size: 100% 130px;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+    padding: 24px;
+    width: 60vw;
+    position: fixed;
+    left: 20vw;
+    top:20vh;
+    height: 70vh;
+}
+
+/* Card header (Login / Register title) */
+.card h1 {
+    text-align: center;
+    color: #ffffff;
+    padding: 20px 0 60px 0;
+    margin: 0;
+}
+
+/* Form container inside the card */
+.form-container {
+    background: white;
+    border-radius: 5px;
+    padding: 30px 25px 25px 25px;
+    box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    box-sizing: border-box;
+}
+
+/* Input boxes */
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container input[type="email"],
+.form-container input[type="number"] {
+    font: 600 18px 'Source Sans Pro', sans-serif;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+    color: #585d74;
+}
+
+/* Submit button */
+.form-container button {
+    padding: 14px 18px;
+    font: 600 18px 'Source Sans Pro', sans-serif;
+    border-radius: 5px;
+    border: none;
+    background-image: linear-gradient(to right, #375BDC, #4D70EF);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+.form-container button:hover {
+    transform: scale(1.05);
+}
+
+.form-container button.btn-success {
+    background-image: linear-gradient(to right, #28a745, #34ce57);
+    color: white;
+}
+
+.form-container button.btn-danger {
+    background-image: linear-gradient(to right, #dc3545, #ff4d5a);
+    color: white;
+}
+
+.btn-success:hover,
+.btn-danger:hover {
+    transform: scale(1.05);
+}

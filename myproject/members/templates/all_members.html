@@ -1,0 +1,77 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+    My Club - List of all members
+{% endblock %}
+
+{% block content %}
+
+<div class="members-wrapper">
+
+    {% if current_user.role.name == 'head' or current_user.role.name == 'secretariat' or current_user.role.name == 'admin' %}
+        <div class="add-member-bar">
+            <a href="{% url 'add_member' %}" class="add-member-btn">
+                + Add Members
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="mycard">
+        <h1>Members</h1>
+
+            <input
+                type="text"
+                id="memberSearch"
+                placeholder="Search members..."
+                class="member-search"
+                autocomplete="off"
+            >
+
+        <ul id="membersList" class="members-list">
+            
+            {% for x in mymembers %}
+                <li
+                    class="member-item"
+                    data-name="{{ x.firstname|lower }} {{ x.lastname|lower }}"
+                    onclick="window.location='/main/members/details/{{ x.id }}/'"
+                >
+                    <div class="member-avatar">
+                        {% if x.profile_photo %}
+                            <img src="{{ x.profile_photo.url }}" alt="Profile">
+                        {% else %}
+                            <img src="{% static 'images/default_profile.png' %}" alt="Profile">
+                        {% endif %}
+                    </div>
+
+                    <div class="member-info">
+                        {{ x.firstname }} {{ x.lastname }}
+                        <span style="font-size: 13px; opacity: 0.7;">
+                            ({{ x.role.name|title }})
+                        </span>
+                    </div>
+                </li>
+            {% empty %}
+                <li style="text-align:center; padding:10px;">
+                    No members found.
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById('memberSearch');
+    const memberItems = document.querySelectorAll('.member-item');
+
+    searchInput.addEventListener('input', function () {
+        const query = this.value.toLowerCase().trim();
+
+        memberItems.forEach(item => {
+            const name = item.getAttribute('data-name');
+            item.style.display = name.includes(query) ? 'flex' : 'none';
+        });
+    });
+</script>
+
+{% endblock %}

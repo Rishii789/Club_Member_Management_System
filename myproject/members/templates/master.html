@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'mystyles.css' %}">
+    </head>
+
+    <body>
+        <div class="topnav">
+            <div class="nav-left">
+                <a href="/main/" class="{% if request.path == '/main/' %}active{% endif %}">Home</a>
+                <a href="/main/members/" class="{% if '/members' in request.path %}active{% endif %}">
+                    Members
+                </a>
+            </div>
+
+            {% if current_user %}
+            <div class="nav-right">
+                <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            </div>
+            {% endif %}
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "master.html" %}
+
+{% block title %}
+    My Club
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h1>My Club</h1>
+    <h3>Members</h3>
+    <p>Check out all our <a href="/main/members/">members</a></p>
+    {% if current_user %}
+    <p>
+        Logged in as:
+        <strong>{{ current_user.firstname }} {{ current_user.lastname }}</strong>
+        ({{ current_user.role }})
+    </p>
+    {% else %}
+        <p>Not logged in</p>
+    {% endif %}
+</div>
+{% endblock %}
